@@ -1,11 +1,11 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'
-        nodejs 'node23'
+        jdk 'jdk21'
+        nodejs 'node25'
     }
     environment {
-        SCANNER_HOME=tool 'sonar-scanner'
+        SCANNER_HOME=tool 'sonar'
     }
     stages {
         stage ("clean workspace") {
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('OWASP FS SCAN') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'owasp-check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
     }
 }
@@ -100,9 +100,10 @@ pipeline {
                 </body>
                 </html>
             """,
-            to: 'kastrokiran@gmail.com',
+            to: 'rahul13004@gmail.com',
             mimeType: 'text/html',
             attachmentsPattern: 'trivy.txt'
         }
     }
 }
+
